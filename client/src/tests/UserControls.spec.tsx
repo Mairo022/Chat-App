@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react'
 import { ViewProvider } from "../context/viewContext";
-import UserControls from "./UserControls"
+import UserControls from "../components/UserControls"
 import userEvent from "@testing-library/user-event";
 import renderWithRouting from "../test-utils";
 
