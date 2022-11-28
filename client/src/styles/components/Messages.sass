@@ -78,26 +78,44 @@
       line-height: 18px
       border-bottom-right-radius: 100px
       border: 0
-      background-color: rgba(255,255,255,0.2)
+      background-color: rgba(255, 255, 255, 0.2)
       font-size: 1.1em
       scrollbar-width: none
 
       &::-webkit-scrollbar
         display: none
 
-
+    &-submit
+      display: none
 
 @media screen and (max-width: 750px)
   .messages
     &-bar
       border-radius: 0
 
-    &-form
-      & textarea
-        border-radius: 0
-
     &-msgs
       scrollbar-width: none
 
       &::-webkit-scrollbar
         display: none
+
+    &-form
+      &-inputMsg
+        border-radius: 0
+
+      &-submit
+        display: block
+        border-width: 0 0 0 1px
+        border-color: #aec7ec
+        width: 85px
+        height: 100%
+        background-color: rgba(255, 255, 255, 0.2)
+        background-image: url("../../assets/images/send.ico")
+        background-size: 38px auto
+        background-position: center
+        background-repeat: no-repeat
+        transition: 0.25s
+
+        &:active
+          background-color: #72a5e5
+          transition: initial

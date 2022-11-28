@@ -150,6 +150,7 @@ function Messages(props: IMessagesProps): JSX.Element {
                           onChange={ e => { setMessageInput(e.target.value) } }
                           value={ messageInput }
                     />
+                   <button className="messages-form-submit" type="submit"/>
                </form>
            </div>
            :
