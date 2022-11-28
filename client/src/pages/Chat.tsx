@@ -4,6 +4,7 @@ import UsersBoard from "../components/UsersBoard";
 import UserControls from "../components/UserControls";
 import { useEffect, useState } from "react";
 import { ViewProvider } from "../context/viewContext";
+import "../styles/pages/Chat.sass";
 
 function Chat(): JSX.Element {
     const userID: string = localStorage.getItem("userID") as string

@@ -1,0 +1,35 @@
+@import "./utilities/animations"
+
+input[type="submit"]
+  cursor: pointer
+
+input[type="text"]::placeholder
+  color: #575757
+
+input:focus,
+textarea:focus
+  outline: 0
+
+a
+  text-decoration: none
+
+.App
+  overflow: hidden
+  height: 100vh
+  background: linear-gradient(#DAE8FC, #7EA6E0)
+
+.App-content
+  display: grid
+  height: 100vh
+
+  & > div
+    animation: showElement 1.5s
+
+@media screen and (max-width: 750px)
+  *
+    transition: all .5s
+
+  .chat .userBoard,
+  .chat .userControls
+    box-shadow: unset
+    background: linear-gradient(#DAE8FC, #7EA6E0)

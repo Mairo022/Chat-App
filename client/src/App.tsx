@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import './App.sass';
+import './styles/App.sass';
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
 import { Location } from "history";

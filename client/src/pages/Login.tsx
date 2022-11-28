@@ -3,6 +3,7 @@ import { ILogin, ILoginForm, IUser } from "../types/loginTypes";
 import { loginRequest } from "../services/loginServices";
 import { NavLink, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
+import "../styles/pages/LoginRegister.sass";
 
 function Login(): JSX.Element {
     const URL: string = process.env.REACT_APP_PROXY as string
@@ -17,6 +18,7 @@ function Login(): JSX.Element {
                 onLogin(response.data)
             })
             .catch(error => {
+                console.log(error)
                 setError("apiError", { message: error.response.data.message })
             })
 

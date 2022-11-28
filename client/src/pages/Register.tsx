@@ -3,6 +3,7 @@ import { IUser, IRegisterForm } from "../types/registerTypes";
 import { registerRequest } from "../services/registerServices";
 import { NavLink, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
+import "../styles/pages/LoginRegister.sass";
 
 function Register(): JSX.Element {
     const URL: string = process.env.REACT_APP_PROXY as string

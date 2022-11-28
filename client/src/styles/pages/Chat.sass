@@ -1,0 +1,38 @@
+@use "../utilities/variables"
+@use "../utilities/functions"
+
+.chat
+  display: grid
+  grid-template-rows: variables.$chat-top-bar-height auto
+  grid-template-columns: minmax(0, 300px) auto
+  justify-self: center
+  align-self: center
+  width: 90vw
+  height: 95vh
+  max-height: 800px
+  max-width: 1500px
+  overflow: hidden
+  border-radius: variables.$chat-border-radius
+  box-shadow: variables.$main-el-shadow
+  background: linear-gradient(#DAE8FC, #7EA6E0)
+
+  &-connecting
+    grid-column: 1 / span 2
+    grid-row: 1 / span 2
+    align-self: center
+    justify-self: center
+
+    &::after
+      display: inline-block
+      width: 0.5em
+      text-align: left
+      content: "."
+      animation: loadingDots 1.35s infinite
+
+@media screen and (max-width: 750px)
+  .chat
+    grid-template-columns: 0 auto
+    width: 100vw
+    height: 100vh
+    max-height: 100vh
+    border-radius: 0

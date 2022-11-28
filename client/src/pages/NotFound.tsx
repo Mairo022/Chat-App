@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import "../styles/pages/NotFound.sass";
 
 function NotFound(): JSX.Element {
     return (

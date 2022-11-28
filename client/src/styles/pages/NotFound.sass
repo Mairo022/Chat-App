@@ -1,0 +1,23 @@
+@use "../utilities/variables"
+@use "../utilities/functions"
+
+.NotFound
+  margin: 0 auto
+  text-align: center
+
+  &-button
+    margin-top: 15px
+    width: 90%
+    max-width: 125px
+    height: 70px
+    text-align: center
+    border-radius: 11px
+    border: functions.border($color: #6C8EBF)
+    background-color: #DAE8FC
+    transition-duration: variables.$button-transition
+    font-size: 1em
+    cursor: pointer
+
+    &:hover
+      background-color: #e9f3ff
+      transition-duration: variables.$button-transition

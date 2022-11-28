@@ -5,6 +5,7 @@ import { useView } from "../context/viewContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
 import { Location } from "history";
+import "../styles/components/UsersBoard.sass"
 
 function UsersBoard(props: IUsersBoardProps): JSX.Element {
     const userID = props.userID

@@ -1,0 +1,107 @@
+@use "../utilities/variables"
+
+.userControls
+  grid-row: 1
+  grid-column: 1
+  display: flex
+  z-index: 10
+  box-shadow: 0 0 5px 0 black!important
+  background: linear-gradient(#DAE8FC, #DAE8FC)!important
+
+  &-profile,
+  &-logout
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 100%
+    width: 50%
+    text-align: center
+    cursor: pointer
+
+    &:after
+      content: ""
+      position: absolute
+      top: 2px
+      left: 0
+      width: 0
+      height: 100%
+      border-bottom: 2px solid black
+      transition: all .25s
+
+    &:hover
+      box-shadow: 0 0 1px 0 black
+      background-color: rgba(255,255,255,0.15)
+      transition: all .25s
+
+    &:hover:after
+      width: 100%
+
+  &-profile
+    border-radius: variables.$chat-border-radius 0 0 0
+
+    &-window
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      width: 80vw
+      max-width: 450px
+      height: 250px!important
+      border-radius: 20px
+      background: rgba(225, 225, 225, 0.3)
+      backdrop-filter: blur(4px)
+      box-shadow: variables.$main-el-shadow
+      transition: all 0.3s
+      word-wrap: break-word
+      animation: showElement .25s
+      z-index: 11
+
+      &-username,
+      &-userID
+        padding: 10px 0
+
+      &-username
+        margin-top: 35px
+
+      &-content
+        display: flex
+        flex-direction: column
+        height: 100%
+        width: 100%
+        text-align: center
+
+      &-close
+        border-radius: 20px 20px 0 0
+        height: 40px
+        padding: 10px 0
+        background: rgba(197, 218, 250, 0.7)
+        cursor: pointer
+        transition: all 0.25s
+
+        &:hover
+          background: rgba(204, 222, 250, 0.7)
+          box-shadow: 0 0 3px 0 rgba(50,50,50,0.15)
+          transition: all 0.25s
+
+        &:after
+          content: ""
+          position: absolute
+          top: 20px
+          left: 0
+          width: 0
+          height: 20px
+          border: 0
+          border-bottom: 2px solid black
+          transition: all .25s
+          z-index: 5
+
+        &:hover:after
+          width: 100%
+
+@media screen and (max-width: 750px)
+  .userControls
+    width: 100vw
+
+    &-profile
+      border-radius: 0

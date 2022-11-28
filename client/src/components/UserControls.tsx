@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IUserControlsProps } from "../types/chatTypes";
 import { useView } from "../context/viewContext";
 import { NavigateFunction } from "react-router/lib/hooks";
+import "../styles/components/UserControls.sass";
 
 function UserControls(props: IUserControlsProps): JSX.Element {
     const username = props.username

@@ -1,0 +1,103 @@
+@use "../utilities/variables"
+@use "../utilities/functions"
+
+.messages
+  grid-row-start: 1
+  grid-row-end: 3
+  grid-column: 2
+  display: grid
+  grid-template-rows: variables.$chat-top-bar-height auto variables.$chat-top-bar-height
+  overflow: hidden
+
+  &-bar
+    grid-row: 1
+    line-height: variables.$chat-top-bar-height
+    border-top-right-radius: variables.$chat-border-radius
+    text-align: center
+    text-shadow: 1px 1px 2px #ddd
+    box-shadow: 0 0 5px 0 black
+    z-index: 10
+
+    &-menu
+      position: absolute
+      padding: 0 35px
+      cursor: pointer
+      z-index: 1
+
+  &-msgs
+    grid-row: 2
+    padding: 0 variables.$messages-sides-distance
+    overflow-y: auto
+    word-break: break-word
+
+    &::-webkit-scrollbar-track
+      border-radius: 10px
+      margin: 15px 0
+
+    &::-webkit-scrollbar
+      width: 7px
+
+    &::-webkit-scrollbar-thumb
+      border-radius: 10px
+      background-color: #7EA6E0
+
+    &-msg
+      margin: 15px 0
+      padding: 10px 25px
+      background-color: rgba(245, 245, 250, 1)
+      border-radius: 25px
+      white-space: pre-line
+
+      &-details
+        padding-bottom: 8px
+
+        &-name,
+        &-time
+          display: inline-block
+
+        &-name
+          border-bottom: functions.border()
+
+        &-time
+          float: right
+          line-height: 2.2em
+          font-size: 0.65em
+
+  &-form
+    display: flex
+    align-items: center
+    height: variables.$chat-top-bar-height
+    overflow: auto
+
+    &-inputMsg
+      width: 100%
+      height: 100%
+      resize: none
+      white-space: pre-wrap
+      padding: 5px 35px
+      line-height: 18px
+      border-bottom-right-radius: 100px
+      border: 0
+      background-color: rgba(255,255,255,0.2)
+      font-size: 1.1em
+      scrollbar-width: none
+
+      &::-webkit-scrollbar
+        display: none
+
+
+
+@media screen and (max-width: 750px)
+  .messages
+    &-bar
+      border-radius: 0
+
+    &-form
+      & textarea
+        border-radius: 0
+
+    &-msgs
+      scrollbar-width: none
+
+      &::-webkit-scrollbar
+        display: none

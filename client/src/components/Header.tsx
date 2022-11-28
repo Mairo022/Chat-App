@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Location } from "history";
+import '../styles/components/Header.sass';
 
 function Header(): JSX.Element {
     const location: Location = useLocation()

@@ -5,6 +5,7 @@ import { sendMessageRequest, messagesRequest } from '../services/chatServices'
 import { useView } from "../context/viewContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
+import "../styles/components/Messages.sass";
 
 function Messages(props: IMessagesProps): JSX.Element {
     const senderName = props.username
@@ -144,11 +145,11 @@ function Messages(props: IMessagesProps): JSX.Element {
                </div>
 
                <form className="messages-form" onSubmit={ onMessageSubmit }>
-                <textarea rows={ 3 } cols={ 1 } className="messages-form-inputMsg"
+                   <textarea rows={ 3 } cols={ 1 } className="messages-form-inputMsg"
                           onKeyPress={ handleEnter }
                           onChange={ e => { setMessageInput(e.target.value) } }
                           value={ messageInput }
-                />
+                    />
                </form>
            </div>
            :
