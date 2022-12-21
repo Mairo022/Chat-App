@@ -3,10 +3,10 @@ import "../styles/pages/NotFound.sass";
 
 function NotFound(): JSX.Element {
     return (
-        <div className="NotFound">
-            <div className="NotFound-text">This page does not exist, yet</div>
+        <div className="Not_found">
+            <div className="Not_found__text">This page does not exist</div>
             <NavLink to="/login" >
-                <button className="NotFound-button" type="button">Main Page</button>
+                <button className="Not_found__button" type="button">Main Page</button>
             </NavLink>
         </div>
     )

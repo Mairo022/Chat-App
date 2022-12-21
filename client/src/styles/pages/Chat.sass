@@ -1,26 +1,24 @@
 @use "../utilities/variables"
-@use "../utilities/functions"
 
-.chat
+.Chat
   display: grid
-  grid-template-rows: variables.$chat-top-bar-height auto
-  grid-template-columns: minmax(0, 300px) auto
+  grid-template-columns: minmax(auto, 350px) auto
   justify-self: center
   align-self: center
-  width: 90vw
-  height: 95vh
-  max-height: 800px
-  max-width: 1500px
+  width: 100vw
+  height: 100%
+  max-height: 850px
+  max-width: 1275px
   overflow: hidden
-  border-radius: variables.$chat-border-radius
-  box-shadow: variables.$main-el-shadow
-  background: linear-gradient(#DAE8FC, #7EA6E0)
+  border-radius: 5px
+  background: white
 
-  &-connecting
-    grid-column: 1 / span 2
-    grid-row: 1 / span 2
+  .connecting
+    grid-column: 1 / 3
     align-self: center
     justify-self: center
+    font-size: variables.$font-size-big
+    color: variables.$color-text-dark
 
     &::after
       display: inline-block
@@ -29,10 +27,8 @@
       content: "."
       animation: loadingDots 1.35s infinite
 
-@media screen and (max-width: 750px)
-  .chat
+@media screen and (max-width: variables.$width-mobile-view)
+  .Chat
     grid-template-columns: 0 auto
-    width: 100vw
-    height: 100vh
     max-height: 100vh
     border-radius: 0

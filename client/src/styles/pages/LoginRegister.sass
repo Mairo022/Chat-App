@@ -1,69 +1,70 @@
 @use "../utilities/variables"
-@use "../utilities/functions"
 
-.login,
-.register
-  display: flex
-  flex-direction: column
-  justify-self: center
-  justify-content: center
-  width: 95%
-  height: calc(100% - 25vh - 5em)
-  max-width: 500px
-  max-height: 470px
-  border-radius: 70px
-  box-shadow: variables.$main-el-shadow
-  background: linear-gradient(#DAE8FC, #7EA6E0)
-  transition: all 1.5s
+.Login,
+.Register
+  display: grid
+  grid-template-rows: 1fr 1fr 1fr
+  justify-items: center
+  place-self: center
+  width: 100%
+  max-width: 300px
+  padding: 0 10px
 
-  &-form
-    display: flex
-    flex-direction: column
-    align-items: center
+  .header
+    align-self: center
 
-    &-username,
-    &-password
-      margin: 15px 0
-      width: 90%
-      max-width: 250px
-      height: 50px
-      text-align: center
-      border-radius: 8px
-      border: 0
-      font-size: 1.05em
-      box-shadow: 0 0 1px 0 black
-      transition: all .25s
-
-      &:focus::-webkit-input-placeholder
-        opacity: 0
-        transition: all .25s
-
-      &:-webkit-autofill
-        background-color: white
-
-    &-submit
-      margin: 15px auto 10px auto
-      width: 90%
-      max-width: 125px
-      height: 70px
+  .form
+    align-self: center
+    &__username,
+    &__password,
+    &__submit
+      margin: 5px 0
+      padding: 15px 15px
+      width: 100%
       text-align: center
       border-radius: 11px
-      border: functions.border($color: #6C8EBF)
-      background-color: #dfedff
-      transition: all .25s
-      font-size: 1em
+      border: none
+
+    &__username,
+    &__password
+      font-size: variables.$font-size-big
+      line-height: variables.$font-size-big + 5px
+      color: variables.$color-text-dark
+
+      &::placeholder
+        color: variables.$color-text-gray-light
+
+    &__submit
+      font-size: variables.$font-size-big + 2px
+      line-height: variables.$font-size-big + 5px
+      background-color: #0d71e5
+      color: #DBEBFC
 
       &:hover
-        background-color: #cee0fa
-        transition: all .25s
+        background-color: #0067ef
 
-  &-register_link,
-  &-login_link
-    margin-bottom: -10px
-    padding: 5px
-    align-self: center
-    font-size: 0.75em
-    color: black
+    .form__error
+      margin-left: 10px
+      color: #e22f2f
 
-    &:hover
-      color: #2656b8
+  .register,
+  .login
+    display: inline-block
+    align-self: start
+
+    &__text,
+    &__link
+      float: left
+      color: #cecece
+
+    &__link
+      color: #c9d9ea
+      border-bottom: 1px solid #c9d9ea
+
+      &:hover
+        border: none
+
+@media screen and (max-width: variables.$width-mobile-view)
+  .Login,
+  .Register
+    padding-bottom: 30vh

@@ -62,16 +62,19 @@ function Messages(props: IMessagesProps): JSX.Element {
     }
 
     const messagesJSXCreator = (): JSX.Element[] | [] => {
-        return messageHistory?.map((message: IGetMessage, id: number) =>
-            <div className="messages-msgs-msg" key={ id }>
-                <div className="messages-msgs-msg-details">
-                    <div className="messages-msgs-msg-details-name">{ message.sender.username }</div>
-                    <div className="messages-msgs-msg-details-time"></div>
+        return messageHistory?.map((message: IGetMessage, id: number) => {
+            console.log(message)
+            const sender = message.sender.username === senderName ? "me" : "roommate"
+
+                return <div className={`messages__message messages__message--${sender}`} key={ id }>
+                    <div className="messages__message__text">
+                        { message.message }
+                    </div>
+                    <div className="messages__message__time">
+                        {}
+                    </div>
                 </div>
-                <div className="messages-msgs-msg-text">
-                    { message.message }
-                </div>
-            </div>
+            }
         )
     }
 
@@ -82,10 +85,9 @@ function Messages(props: IMessagesProps): JSX.Element {
     }
 
     function handleEnter(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
-        e.key === "Enter" && !e.shiftKey && onMessageSubmit(e)
-        e.key === "Enter" && e.shiftKey && setMessageInput(
-            input => (input + "\n").replace(/(\r?\n|\r)(?!.*\1)/g, "")
-        )
+        if (e.key === "Enter" && !e.shiftKey) {
+            onMessageSubmit(e)
+        }
     }
 
     function loadMessages(): void {
@@ -129,28 +131,31 @@ function Messages(props: IMessagesProps): JSX.Element {
     }, [messagesJSX])
 
     return roomID !== undefined && roomID !== "" ?
-           <div className="messages" style={
+           <div className="Messages" style={
             { "display": hideComponent ? "none" : "grid" }
            }>
-               <div className="messages-bar">
-                   <div className="messages-bar-menu" onClick={ () => { onHideMessages() } }>
-                       { isMobile ? "\u21D0" : "" }
+               <div className="header">
+                   <div className="header__rooms_btn" onClick={ () => { onHideMessages() } }>
+                       { isMobile ? "←" : "" }
                    </div>
-                   <div className="messages-bar-roommate">{ roommate }</div>
+                   <div className="header__roommate">
+                       <div className="header__roommate__image"/>
+                       <div className="header__roommate__name">{ roommate }</div>
+                   </div>
                </div>
 
-               <div className="messages-msgs">
+               <div className="messages">
                    { messagesJSX }
-                   <div className="messages-msgs-msg-last" ref={ lastMessageRef }/>
+                   <div className="messages__message--last" ref={ lastMessageRef }/>
                </div>
 
-               <form className="messages-form" onSubmit={ onMessageSubmit }>
-                   <textarea rows={ 3 } cols={ 1 } className="messages-form-inputMsg"
+               <form className="form" onSubmit={ onMessageSubmit }>
+                   <textarea rows={ 1 } cols={ 1 } className="form__inputMsg"
                           onKeyPress={ handleEnter }
                           onChange={ e => { setMessageInput(e.target.value) } }
                           value={ messageInput }
                     />
-                   <button className="messages-form-submit" type="submit"/>
+                   <button className="form__submit" type="submit"/>
                </form>
            </div>
            :

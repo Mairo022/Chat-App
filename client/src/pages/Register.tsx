@@ -4,13 +4,14 @@ import { registerRequest } from "../services/registerServices";
 import { NavLink, useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
 import "../styles/pages/LoginRegister.sass";
+import HeaderApp from "../components/HeaderApp";
 
 function Register(): JSX.Element {
     const URL: string = process.env.REACT_APP_PROXY as string
     const navigate: NavigateFunction = useNavigate()
 
     const { register, handleSubmit, setError, formState: { errors }, clearErrors } = useForm<IRegisterForm>()
-    const errorMsg = (error: string): JSX.Element => <span className="register-content-form-error">{ errors[error].message }</span>
+    const errorMsg = (error: string): JSX.Element => <span className="form__error">{ errors[error].message }</span>
 
     const onSubmit: SubmitHandler<IUser> = (user: IUser) =>
         registerRequest(user, URL)
@@ -22,11 +23,12 @@ function Register(): JSX.Element {
             })
 
     return (
-        <div className="register">
-
-            <form className="register-form" onSubmit={ handleSubmit(onSubmit) }>
-
-                <input className="register-form-username" placeholder="Username"
+        <div className="Register">
+            <div className="header">
+                <HeaderApp/>
+            </div>
+            <form className="form" onSubmit={ handleSubmit(onSubmit) }>
+                <input className="form__username" placeholder="Username"
                        { ...register("username", {
                            required: "Username is required" ,
                            minLength: {
@@ -41,7 +43,7 @@ function Register(): JSX.Element {
                 />
                 { errors.username ? errorMsg("username") : "" }
 
-                <input className="register-form-password" placeholder="Password" type="password"
+                <input className="form__password" placeholder="Password" type="password"
                        { ...register("password", {
                            required: "Password is required",
                            minLength: {
@@ -58,14 +60,15 @@ function Register(): JSX.Element {
 
                 { errors.apiError ? errorMsg("apiError") : "" }
 
-                <input className="register-form-submit" type="submit" value="Register" onClick={ () => { clearErrors() } }/>
-
+                <input className="form__submit" type="submit" value="Register" onClick={ () => { clearErrors() } }/>
             </form>
 
-            <NavLink className="register-login_link" to="/login">
-                <p className="register-login_link-text">Login</p>
-            </NavLink>
-
+            <div className="login">
+                <div className="login__text">Already have an account?&#0160;</div>
+                <NavLink className="login__link" to="/login">
+                    <p className="login__link__text">Sign in</p>
+                </NavLink>
+            </div>
         </div>
     )
 }

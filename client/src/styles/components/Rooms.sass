@@ -1,0 +1,159 @@
+@use "../utilities/variables"
+
+.Rooms
+  grid-column: 1
+  overflow-y: scroll
+  background-color: #F9F9F9
+  scrollbar-width: none
+
+  &::-webkit-scrollbar
+    display: none
+
+  .personal_menu
+    padding: 0 10px
+    width: 100%
+
+  .header
+    display: grid
+    grid-template-columns: 45px auto auto
+    align-items: center
+    padding: 25px 10px 22px
+    width: 100%
+    cursor: pointer
+
+    &__user__name
+      color: variables.$color-text-dark
+      font-size: variables.$font-size-big
+      font-weight: 600
+
+    &__user__image
+      width: 30px
+      height: 30px
+      box-shadow: black 0 0 3px
+      border-radius: 50px
+
+    &__user__menu
+      justify-self: end
+      margin-top: 3px
+      margin-right: 8px
+      width: 15px
+      height: 15px
+      background-image: url("../../assets/images/down.png")
+      background-position: center center
+      background-size: 15px 15px
+
+    &__user__menu_status--closed
+      transition: 0.12s
+
+    &__user__menu_status--open
+      transform: scaleY(-1)
+      transition: 0.12s
+
+  .search
+    padding: 0 10px
+
+    &__input
+      height: 30px
+      width: 100%
+      padding: 0 20px
+      margin-bottom: 15px
+      background-color: #E3E3E3
+      border: none
+      border-radius: 10px
+      font-size: variables.$font-size-medium
+
+      &::placeholder
+        color: #848484
+
+  .search__results
+    &__user
+      padding: 10px 5px!important
+      &__details__name
+        color: variables.$color-text-gray-light!important
+
+  .rooms,
+  .search__results
+    padding: 0 10px
+
+    &__user
+      display: flex
+      height: 70px
+      width: 100%
+      padding: 10px 15px
+      margin-bottom: 5px
+      cursor: pointer
+      transition: 0.1s
+      border-radius: 11px
+
+      &--active
+        background-color: #DEDEDE
+
+      &:hover
+        background-color: #E7E7E7
+        transition: 0ms
+
+      &__image
+        float: left
+        height: 50px
+        width: 50px
+        padding: 25px
+        margin-right: 15px
+        border-radius: 50%
+        background-color: white
+        box-shadow: black 0 0 3px
+
+      &__details
+        display: grid
+        grid-template-columns: 1fr 1fr
+        grid-template-rows: 1fr 1fr
+        grid-row-gap: 5px
+        height: 50px
+        width: 100%
+
+        &__name
+          grid-column: 1
+          grid-row: 1
+          align-self: end
+          justify-self: start
+          color: variables.$color-text-dark
+          font-size: variables.$font-size-big
+          font-weight: 600
+
+        &__lastMessage
+          grid-column: 1/3
+          grid-row: 2
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          font-size: variables.$font-size-medium
+          color: variables.$color-text-gray
+          padding-bottom: 1px
+
+        &__lastMessageTime
+          grid-column: 2
+          grid-row: 1
+          align-self: end
+          justify-self: end
+          text-align: right
+          padding-bottom: 1px
+          font-size: variables.$font-size-small
+          color: variables.$color-text-gray-light
+
+@media screen and (max-width: variables.$width-mobile-view)
+  .Rooms
+    width: 100vw
+    background-color: white
+
+    .search
+      &__input
+        padding-left: 10px
+
+    .rooms,
+    .search__results
+      padding: 0
+
+      &__user
+        border-radius: 0
+
+  .personal_menu
+    width: calc(100% - 20px)

@@ -1,6 +1,6 @@
 @use "../utilities/variables"
 
-.userControls
+.UserControls
   grid-row: 1
   grid-column: 1
   display: flex
@@ -8,8 +8,8 @@
   box-shadow: 0 0 5px 0 black!important
   background: linear-gradient(#DAE8FC, #DAE8FC)!important
 
-  &-profile,
-  &-logout
+  .profile,
+  .logout
     position: relative
     display: flex
     align-items: center
@@ -37,10 +37,10 @@
     &:hover:after
       width: 100%
 
-  &-profile
-    border-radius: variables.$chat-border-radius 0 0 0
+  .profile
+    border-radius: 10px 0 0 0
 
-    &-window
+    &__window
       position: absolute
       top: 50%
       left: 50%
@@ -51,27 +51,27 @@
       border-radius: 20px
       background: rgba(225, 225, 225, 0.3)
       backdrop-filter: blur(4px)
-      box-shadow: variables.$main-el-shadow
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px
       transition: all 0.3s
       word-wrap: break-word
       animation: showElement .25s
       z-index: 11
 
-      &-username,
-      &-userID
+      &__username,
+      &__userID
         padding: 10px 0
 
-      &-username
+      &__username
         margin-top: 35px
 
-      &-content
+      &__content
         display: flex
         flex-direction: column
         height: 100%
         width: 100%
         text-align: center
 
-      &-close
+      &__close
         border-radius: 20px 20px 0 0
         height: 40px
         padding: 10px 0
@@ -99,9 +99,9 @@
         &:hover:after
           width: 100%
 
-@media screen and (max-width: 750px)
+@media screen and (max-width: variables.$width-mobile-view)
   .userControls
     width: 100vw
 
-    &-profile
+    &__profile
       border-radius: 0

@@ -1,7 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import Messages from "../components/Messages";
-import UsersBoard from "../components/UsersBoard";
-import UserControls from "../components/UserControls";
+import Rooms from "../components/Rooms";
 import { useEffect, useState } from "react";
 import { ViewProvider } from "../context/viewContext";
 import "../styles/pages/Chat.sass";
@@ -53,15 +52,14 @@ function Chat(): JSX.Element {
     const chatJSX = (): JSX.Element => {
         return socket !== undefined && socketConnected
             ?   <ViewProvider>
-                    <UserControls userID={ userID } username={ username }/>
-                    <UsersBoard socket={ socket } url={ URL } userID={ userID } username={ username }/>
+                    <Rooms socket={ socket } url={ URL } userID={ userID } username={ username }/>
                     <Messages socket={ socket } url={ URL } userID={ userID } username={ username }/>
                 </ViewProvider>
-            :   <p className="chat-connecting">Connecting to chat</p>
+            :   <p className="connecting">Connecting to chat</p>
     }
 
     return (
-        <div className="chat">
+        <div className="Chat">
             { chatJSX() }
         </div>
     )

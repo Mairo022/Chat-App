@@ -1,23 +1,25 @@
 @use "../utilities/variables"
-@use "../utilities/functions"
 
-.NotFound
-  margin: 0 auto
+.Not_found
+  align-self: center
+  justify-self: center
   text-align: center
 
-  &-button
+  &__text
+    color: #cecece
+
+  &__button
     margin-top: 15px
-    width: 90%
-    max-width: 125px
+    width: 100%
     height: 70px
     text-align: center
     border-radius: 11px
-    border: functions.border($color: #6C8EBF)
-    background-color: #DAE8FC
-    transition-duration: variables.$button-transition
-    font-size: 1em
+    border: none
     cursor: pointer
+    font-size: variables.$font-size-big + 2px
+    line-height: variables.$font-size-big + 5px
+    background-color: #0d71e5
+    color: #DBEBFC
 
     &:hover
-      background-color: #e9f3ff
-      transition-duration: variables.$button-transition
+      background-color: #0067ef

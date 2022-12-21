@@ -38,7 +38,7 @@ interface IRoom extends IRoomFetched {
     lastMessageSent: string
 }
 
-interface IUsersBoardProps {
+interface IRoomsProps {
     username: string
     socket: Socket
     userID: string
@@ -62,6 +62,6 @@ export type {
     IRoom,
     IRoomFetched,
     IUserControlsProps,
-    IUsersBoardProps,
+    IRoomsProps,
     ISearchUsers
 }

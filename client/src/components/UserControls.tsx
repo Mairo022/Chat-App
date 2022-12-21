@@ -40,32 +40,32 @@ function UserControls(props: IUserControlsProps): JSX.Element {
 
     const profileJSX = (): JSX.Element =>
         profileVisible
-            ? <div className="userControls-profile-window">
-                <div className="userControls-profile-window-content">
-                    <div className="userControls-profile-window-close"
+            ? <div className="profile__window">
+                <div className="profile__window__content">
+                    <div className="profile__window__close"
                          onClick={ () => { setProfileVisible(visible => !visible) } }
                     >
                         Close
                     </div>
-                    <div className="userControls-profile-window-username">
-                        <p className="userControls-profile-window-username-label">Username</p>
-                        <p className="userControls-profile-window-username-value">{ username }</p>
+                    <div className="profile__window__username">
+                        <p className="profile__window__username__label">Username</p>
+                        <p className="profile__window__username__value">{ username }</p>
                     </div>
-                    <div className="userControls-profile-window-userID">
-                        <p className="userControls-profile-window-userID-label">User ID</p>
-                        <p className="userControls-profile-window-userID-value">{ userID }</p>
+                    <div className="profile__window__window__userID">
+                        <p className="profile__window__window__userID__label">User ID</p>
+                        <p className="profile__window__window__userID__value">{ userID }</p>
                     </div>
                 </div>
             </div>
             : <></>
 
     return (
-        <div className="userControls" style={ { "display": hideComponent ? "none" : "flex" } }>
+        <div className="UserControls" style={ { "display": hideComponent ? "none" : "flex" } }>
             { profileJSX() }
-            <div className="userControls-profile" onClick={ () => { setProfileVisible(visible => !visible) } }>
+            <div className="profile" onClick={ () => { setProfileVisible(visible => !visible) } }>
                 Profile
             </div>
-            <div className="userControls-logout" onClick={ () => { onLogOut() } }>
+            <div className="logout" onClick={ () => { onLogOut() } }>
                 Log Out
             </div>
         </div>

@@ -7,7 +7,6 @@ import Chat from "./pages/Chat";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import Header from "./components/Header";
 
 function App(): JSX.Element {
     const navigate: NavigateFunction = useNavigate()
@@ -25,16 +24,13 @@ function App(): JSX.Element {
 
     return (
         <div className="App">
-            <Header/>
-            <div className="App-content">
-                <Routes>
-                    <Route path="/" element={ <Login/> }/>
-                    <Route path="/chat/*" element={ <Chat/> }/>
-                    <Route path="/register" element={ <Register/> }/>
-                    <Route path="/login" element={ <Login/> }/>
-                    <Route path="*" element={ <NotFound/>}/>
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="/" element={ <Login/> }/>
+                <Route path="/chat/*" element={ <Chat/> }/>
+                <Route path="/register" element={ <Register/> }/>
+                <Route path="/login" element={ <Login/> }/>
+                <Route path="*" element={ <NotFound/>}/>
+            </Routes>
         </div>
     )
 }
