@@ -17,6 +17,7 @@ function Messages(props: IMessagesProps): JSX.Element {
     const roomID: string | undefined = location.pathname.split("/chat/")[1]
     const roommate = localStorage.getItem("roommate")
 
+    const [privateMessage, setPrivateMessage] = useState<IGetMessage>()
     const [messageInput, setMessageInput] = useState<string>("")
     const [messageHistory, setMessageHistory] = useState<IGetMessage[]>([])
     const [messagesJSX, setMessagesJSX] = useState<JSX.Element[] | []>([])
@@ -63,7 +64,6 @@ function Messages(props: IMessagesProps): JSX.Element {
 
     const messagesJSXCreator = (): JSX.Element[] | [] => {
         return messageHistory?.map((message: IGetMessage, id: number) => {
-            console.log(message)
             const sender = message.sender.username === senderName ? "me" : "roommate"
 
                 return <div className={`messages__message messages__message--${sender}`} key={ id }>
@@ -105,21 +105,32 @@ function Messages(props: IMessagesProps): JSX.Element {
             })
     }
 
+    function updateMessages(): void {
+        if (privateMessage !== undefined && privateMessage.roomID == roomID) {
+            setMessageHistory(oldMessages => [ ...oldMessages, privateMessage ])
+        }
+    }
+
     function socketOnPrivateMessage(): void {
         socket.on("private message", (message: IGetMessage) => {
-            if (message.roomID == roomID) {
-                setMessageHistory(oldMessages => [ ...oldMessages, message ])
-            }
+            setPrivateMessage(message)
         })
     }
 
     useEffect(() => {
-        loadMessages()
         socketOnPrivateMessage()
 
         return () => {
             socket.removeListener("private message")
         }
+    }, [])
+
+    useEffect(() => {
+        updateMessages()
+    }, [privateMessage])
+
+    useEffect(() => {
+        loadMessages()
     }, [roomID])
 
     useEffect(() => {

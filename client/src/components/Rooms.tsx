@@ -2,9 +2,8 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { userRoomsRequest, newRoomRequest, searchUsersRequest } from '../services/chatServices'
 import { IGetMessage, IRoom, IRoomFetched, ISearchUsers, IRoomsProps } from "../types/chatTypes";
 import { useView } from "../context/viewContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
-import { Location } from "history";
 import "../styles/components/Rooms.sass"
 import PersonalMenu from "./PersonalMenu";
 
@@ -14,9 +13,8 @@ function Rooms(props: IRoomsProps): JSX.Element {
     const socket = props.socket
 
     const navigate: NavigateFunction = useNavigate()
-    const location: Location = useLocation()
-
     const [showPersonalMenu, setShowPersonalMenu] = useState(false)
+    const [privateMessage, setPrivateMessage] = useState<IGetMessage>()
 
     const [rooms, setRooms] = useState<IRoom[] | []>([])
     const [roomsJSX, setRoomsJSX] = useState<JSX.Element[] | []>([])
@@ -173,6 +171,16 @@ function Rooms(props: IRoomsProps): JSX.Element {
         })
     }
 
+    function updateRooms(): void {
+        if (privateMessage === undefined) return
+
+        const updatedRooms: IRoom[] = rooms
+            .map(room => room.id === privateMessage.roomID ? { ...room, lastMessage: privateMessage.message, lastMessageSent: String(new Date()) } : room)
+            .sort((a: IRoom, b: IRoom) => new Date(a.lastMessageSent) < new Date(b.lastMessageSent) ? 1 : -1)
+
+        setRooms(updatedRooms)
+    }
+
     function socketJoinRoom(roomID: string): void {
         socket.emit("joinRoom", roomID)
     }
@@ -185,11 +193,7 @@ function Rooms(props: IRoomsProps): JSX.Element {
 
     function socketOnPrivateMessage(): void {
         socket.on("private message", (message: IGetMessage) => {
-            const updatedRooms: IRoom[] = rooms
-                .map(room => room.id === message.roomID ? { ...room, lastMessage: message.message, lastMessageSent: String(new Date()) } : room)
-                .sort((a: IRoom, b: IRoom) => new Date(a.lastMessageSent) < new Date(b.lastMessageSent) ? 1 : -1)
-
-            setRooms(updatedRooms)
+            setPrivateMessage(message)
         })
     }
 
@@ -201,10 +205,12 @@ function Rooms(props: IRoomsProps): JSX.Element {
 
     useEffect(() => {
         userRooms()
+        socketOnPrivateMessage()
         socketOnReconnect()
         socketOnNewRoom()
 
         return () => {
+            socket.removeListener("private message")
             socket.removeListener("connect")
             socket.removeListener("new room")
         }
@@ -219,12 +225,8 @@ function Rooms(props: IRoomsProps): JSX.Element {
     }, [rooms.length])
 
     useEffect(() => {
-        socketOnPrivateMessage()
-
-        return () => {
-            socket.removeListener("private message")
-        }
-    }, [rooms, location])
+        updateRooms()
+    },[privateMessage])
 
     useEffect(() => {
         setSearchJSX(searchJSXCreator())
