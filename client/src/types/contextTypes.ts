@@ -5,8 +5,6 @@ interface IViewProvider {
 interface IViewContext {
     width: number
     isMobile: boolean
-    showMessages: boolean
-    setShowMessages: (state: boolean) => void
 }
 
 export type {

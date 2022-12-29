@@ -2,13 +2,18 @@ import { io, Socket } from "socket.io-client";
 import Messages from "../components/Messages";
 import Rooms from "../components/Rooms";
 import { useEffect, useState } from "react";
-import { ViewProvider } from "../context/viewContext";
 import "../styles/pages/Chat.sass";
+import { Location } from "history";
+import { useLocation } from "react-router-dom";
 
 function Chat(): JSX.Element {
     const userID: string = localStorage.getItem("userID") as string
     const username: string = localStorage.getItem("username") as string
     const URL: string = process.env.REACT_APP_PROXY as string
+
+    const location: Location = useLocation()
+    const currentRoom: string | undefined = location.pathname.split("/chat/")[1]
+    const isInRoom: boolean = currentRoom !== undefined && currentRoom !== ""
 
     const [socket, setSocket] = useState<Socket | undefined>()
     const [socketConnected, setSocketConnected] = useState<boolean>(false)
@@ -51,10 +56,10 @@ function Chat(): JSX.Element {
 
     const chatJSX = (): JSX.Element => {
         return socket !== undefined && socketConnected
-            ?   <ViewProvider>
-                    <Rooms socket={ socket } url={ URL } userID={ userID } username={ username }/>
-                    <Messages socket={ socket } url={ URL } userID={ userID } username={ username }/>
-                </ViewProvider>
+            ?   <>
+                    <Rooms socket={ socket } url={ URL } userID={ userID } username={ username } isInRoom={ isInRoom }/>
+                    <Messages socket={ socket } url={ URL } userID={ userID } username={ username } isInRoom={ isInRoom } currentRoom={ currentRoom }/>
+                </>
             :   <p className="connecting">Connecting to chat</p>
     }
 

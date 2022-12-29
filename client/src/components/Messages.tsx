@@ -1,9 +1,8 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { IGetMessage, IMessagesProps } from "../types/chatTypes";
-import { Location } from "history";
 import { sendMessageRequest, messagesRequest } from '../services/chatServices'
 import { useView } from "../context/viewContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NavigateFunction } from "react-router/lib/hooks";
 import "../styles/components/Messages.sass";
 
@@ -11,10 +10,10 @@ function Messages(props: IMessagesProps): JSX.Element {
     const senderName = props.username
     const senderID = props.userID
     const socket = props.socket
+    const roomID = props.currentRoom
+    const isInRoom = props.isInRoom
 
     const navigate: NavigateFunction = useNavigate()
-    const location: Location = useLocation()
-    const roomID: string | undefined = location.pathname.split("/chat/")[1]
     const roommate = localStorage.getItem("roommate")
 
     const [privateMessage, setPrivateMessage] = useState<IGetMessage>()
@@ -22,8 +21,8 @@ function Messages(props: IMessagesProps): JSX.Element {
     const [messageHistory, setMessageHistory] = useState<IGetMessage[]>([])
     const [messagesJSX, setMessagesJSX] = useState<JSX.Element[] | []>([])
 
-    const { isMobile, showMessages, setShowMessages } = useView()
-    const hideComponent: boolean = isMobile && !showMessages
+    const { isMobile } = useView()
+    const [hideComponent, setHideComponent] = useState<boolean>()
 
     const lastMessageRef = useRef<HTMLDivElement | null>(null)
     const scrollToLastMessage = (): void => { lastMessageRef.current?.scrollIntoView() }
@@ -32,7 +31,7 @@ function Messages(props: IMessagesProps): JSX.Element {
         ({
             sender: { username: "Server", _id: "server" },
             message: message,
-            roomID: roomID
+            roomID: roomID ? roomID : ""
         })
 
     const onMessageSubmit = (e: SyntheticEvent): void => {
@@ -40,6 +39,10 @@ function Messages(props: IMessagesProps): JSX.Element {
 
         if (messageInput === "") return
         setMessageInput(input => input.trim())
+
+        if (roomID === undefined || roomID === "") {
+            return handleErrorOnSend()
+        }
 
         sendMessageRequest({
             message: messageInput,
@@ -56,7 +59,7 @@ function Messages(props: IMessagesProps): JSX.Element {
                 })
             })
             .catch(() => {
-                setMessageHistory(oldMessages => [ ...oldMessages, errorMessage("Error sending the message") ])
+                handleErrorOnSend()
             })
 
         setMessageInput("")
@@ -79,15 +82,18 @@ function Messages(props: IMessagesProps): JSX.Element {
     }
 
     function onHideMessages(): void {
-        if (isMobile && showMessages) {
-            setShowMessages(false)
-        }
+        navigate("/chat")
+        setHideComponent(true)
     }
 
     function handleEnter(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
         if (e.key === "Enter" && !e.shiftKey) {
             onMessageSubmit(e)
         }
+    }
+
+    function handleErrorOnSend(): void {
+        setMessageHistory(oldMessages => [ ...oldMessages, errorMessage("Error sending the message") ])
     }
 
     function loadMessages(): void {
@@ -140,6 +146,15 @@ function Messages(props: IMessagesProps): JSX.Element {
     useEffect(() => {
         scrollToLastMessage()
     }, [messagesJSX])
+
+    useEffect(() => {
+        if (!isMobile || (isMobile && isInRoom)) {
+            setHideComponent(false)
+        } else {
+            setHideComponent(true)
+            setMessageHistory([])
+        }
+    }, [isMobile, isInRoom])
 
     return roomID !== undefined && roomID !== "" ?
            <div className="Messages" style={

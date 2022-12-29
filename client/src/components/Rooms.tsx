@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { userRoomsRequest, newRoomRequest, searchUsersRequest } from '../services/chatServices'
 import { IGetMessage, IRoom, IRoomFetched, ISearchUsers, IRoomsProps } from "../types/chatTypes";
 import { useView } from "../context/viewContext";
@@ -11,6 +11,7 @@ function Rooms(props: IRoomsProps): JSX.Element {
     const username = props.username
     const userID = props.userID
     const socket = props.socket
+    const isInRoom = props.isInRoom
 
     const navigate: NavigateFunction = useNavigate()
     const [showPersonalMenu, setShowPersonalMenu] = useState(false)
@@ -22,11 +23,8 @@ function Rooms(props: IRoomsProps): JSX.Element {
     const [searchUsers, setSearchUsers] = useState<ISearchUsers[] | []>([])
     const [searchJSX, setSearchJSX] = useState<JSX.Element[] | []>([])
 
-    const { isMobile, showMessages, setShowMessages } = useView()
-    const hideComponent: boolean = isMobile && showMessages
-
-    const isMobileRef = useRef<boolean>(isMobile)
-    const hideRef = useRef<boolean>(hideComponent)
+    const { isMobile } = useView()
+    const [hideComponent, setHideComponent] = useState<boolean>()
 
     const roomsJSXCreator = (): JSX.Element[] | [] =>
         rooms?.map((room: IRoom, id: number) => {
@@ -156,9 +154,6 @@ function Rooms(props: IRoomsProps): JSX.Element {
     }
 
     function joinRoom(roomID: string, roommate: string): void {
-        if (isMobileRef.current && !hideRef.current) {
-            setShowMessages(true)
-        }
         localStorage.setItem("roommate", roommate)
 
         navigate({ pathname: `/chat/${roomID}` })
@@ -233,9 +228,12 @@ function Rooms(props: IRoomsProps): JSX.Element {
     }, [searchUsers])
 
     useEffect(() => {
-        isMobileRef.current = isMobile
-        hideRef.current = isMobile && showMessages
-    }, [isMobile, showMessages])
+        if (isMobile && isInRoom) {
+            setHideComponent(true)
+        } else {
+            setHideComponent(false)
+        }
+    }, [isMobile, isInRoom])
 
     return (
         <div className="Rooms" style={ { "display": hideComponent ? "none" : "block" } }>

@@ -20,6 +20,8 @@ interface IMessagesProps {
     userID: string
     socket: Socket
     url: string
+    currentRoom: string | undefined
+    isInRoom: boolean
 }
 
 interface IRoomFetched {
@@ -43,6 +45,7 @@ interface IRoomsProps {
     socket: Socket
     userID: string
     url: string
+    isInRoom: boolean
 }
 
 interface IUserControlsProps {

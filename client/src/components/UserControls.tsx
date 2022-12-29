@@ -12,8 +12,11 @@ function UserControls(props: IUserControlsProps): JSX.Element {
 
     const [profileVisible, setProfileVisible] = useState<boolean>(false)
 
-    const { isMobile, showMessages } = useView()
-    const hideComponent: boolean = isMobile && showMessages
+    const { isMobile } = useView()
+    const [hideComponent, setHideComponent] = useState<boolean>()
+
+    const currentRoom: string | undefined = location.pathname.split("/chat/")[1]
+    const isInRoom = currentRoom !== undefined && currentRoom !== ""
 
     function onLogOut(): void {
         localStorage.clear()
@@ -37,6 +40,14 @@ function UserControls(props: IUserControlsProps): JSX.Element {
             document.removeEventListener('click', handleOutsideProfileClick)
         }
     }, [profileVisible])
+
+    useEffect(() => {
+        if (isMobile && isInRoom) {
+            setHideComponent(true)
+        } else {
+            setHideComponent(false)
+        }
+    }, [isMobile, isInRoom])
 
     const profileJSX = (): JSX.Element =>
         profileVisible
