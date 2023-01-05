@@ -31,7 +31,8 @@ function Messages(props: IMessagesProps): JSX.Element {
         ({
             sender: { username: "Server", _id: "server" },
             message: message,
-            roomID: roomID ? roomID : ""
+            roomID: roomID ? roomID : "",
+            createdAt: String(new Date())
         })
 
     const onMessageSubmit = (e: SyntheticEvent): void => {
@@ -65,20 +66,65 @@ function Messages(props: IMessagesProps): JSX.Element {
         setMessageInput("")
     }
 
+    const timeString = (time: string): string =>
+        new Date(time).toLocaleTimeString("default", {
+            hour: '2-digit',
+            minute: '2-digit',
+        })
+
     const messagesJSXCreator = (): JSX.Element[] | [] => {
         return messageHistory?.map((message: IGetMessage, id: number) => {
-            const sender = message.sender.username === senderName ? "me" : "roommate"
+            const previousMessageCreatedAt: string | null = id > 0 ? messageHistory[id - 1].createdAt : null
+            const messageCreatedAt = message.createdAt
+            const sender: string = message.sender.username === senderName ? "me" : "roommate"
 
-                return <div className={`messages__message messages__message--${sender}`} key={ id }>
-                    <div className="messages__message__text">
-                        { message.message }
-                    </div>
-                    <div className="messages__message__time">
-                        {}
+            const showDate: boolean = !!previousMessageCreatedAt && isDateDifferent(messageCreatedAt, previousMessageCreatedAt)
+
+            const messageDateJSX: JSX.Element = (
+                <div className="messages__date">
+                    <div className="messages__date__text">
+                        { dateString(messageCreatedAt) }
                     </div>
                 </div>
-            }
-        )
+            )
+
+            return (
+                <React.Fragment key={ id }>
+                    { showDate && messageDateJSX }
+                    <div className={`messages__message messages__message--${sender}`}>
+                        <div className="messages__message__text">
+                            { message.message }
+                        </div>
+                        <div className="messages__message__time">
+                            { timeString(messageCreatedAt) }
+                        </div>
+                    </div>
+                </React.Fragment>
+            )
+        })
+    }
+
+    function isDateDifferent(d1: string, d2: string): boolean {
+        return new Date(d1).toLocaleDateString() !== new Date(d2).toLocaleDateString()
+    }
+
+    function dateString(date: string): string {
+        const dateNow: Date = new Date()
+        const dateOld: Date = new Date(date)
+        const dateYesterday: Date = new Date(dateNow.getTime() - 1000 * 60 * 60 * 24)
+
+        if (dateNow.toLocaleDateString() === dateOld.toLocaleDateString()) {
+            return "Today"
+        }
+        if (dateYesterday.toLocaleDateString() === dateOld.toLocaleDateString()) {
+            return "Yesterday"
+        }
+
+        return dateOld.toLocaleDateString("default", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        })
     }
 
     function onHideMessages(): void {

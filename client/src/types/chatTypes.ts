@@ -7,6 +7,7 @@ interface  IGetMessage {
         username: string
     }
     roomID: string
+    createdAt: string
 }
 
 interface ISendMessage {

@@ -28,6 +28,7 @@ function socketIo(io) {
             io.to(roomID).emit("private message", {
                 message,
                 sender: { username: sender },
+                createdAt: new Date(),
                 roomID,
             })
         })

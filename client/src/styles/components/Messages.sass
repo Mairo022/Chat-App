@@ -49,6 +49,15 @@
       &:hover
         background-color: #9c9c9c
 
+    &__date
+      display: flex
+      align-items: center
+      justify-content: center
+      clear: both
+      height: 40px
+      font-size: variables.$font-size-small
+      color: variables.$color-text-gray-light
+
     &__message
       display: flex
       width: fit-content
@@ -87,11 +96,12 @@
           color: variables.$color-text-gray
 
       &__time
-        display: none
+        display: flex
         align-self: end
         padding-left: 8px
+        transform: translateY(1px)
+        word-break: keep-all
         font-size: variables.$font-size-small
-        margin: 0 0 5px 0
 
   .form
     display: block
